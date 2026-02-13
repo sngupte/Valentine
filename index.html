@@ -13,15 +13,7 @@
             font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #ff758c, #ff7eb3);
             color: white;
-        }
-
-        .container {
             text-align: center;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
         }
 
         button {
@@ -34,13 +26,11 @@
 
         #yesBtn {
             background-color: #28a745;
-            color: white;
             margin-right: 20px;
         }
 
         #noBtn {
             background-color: #dc3545;
-            color: white;
             position: absolute;
         }
 
@@ -54,12 +44,28 @@
             max-width: 90%;
             border-radius: 12px;
         }
+
+        .hidden {
+            display: none;
+        }
+
+        #timer {
+            font-size: 2rem;
+            margin-top: 15px;
+        }
     </style>
 </head>
-
 <body>
 
-<div class="container">
+<!-- COUNTDOWN SCREEN -->
+<div id="countdownScreen">
+    <h1>Something special is coming ❤️</h1>
+    <p>Unlocks on <b>14 February 2026</b></p>
+    <div id="timer">Loading...</div>
+</div>
+
+<!-- VALENTINE SCREEN -->
+<div id="valentineScreen" class="hidden">
     <h1 id="question">Will you be my Valentine? 💖</h1>
 
     <button id="yesBtn">Yes 💕</button>
@@ -71,21 +77,50 @@
 			You are my today, my tomorrow, and my forever ❤️
 		</p>
         <h1>I love you ❤️</h1>
-        <video id="loveVideo" controls autoplay>
+        <video id="loveVideo" controls autoplay muted>
             <source src="love.mp4" type="video/mp4">
-            Your browser does not support the video tag.
         </video>
     </div>
 </div>
 
 <script>
+    // Set Valentine unlock time (IST)
+    const unlockDate = new Date("2026-02-14T00:00:00+05:30");
+
+    const countdownScreen = document.getElementById("countdownScreen");
+    const valentineScreen = document.getElementById("valentineScreen");
+    const timer = document.getElementById("timer");
+
+    function updateCountdown() {
+        const now = new Date();
+        const diff = unlockDate - now;
+
+        if (diff <= 0) {
+            countdownScreen.style.display = "none";
+            valentineScreen.classList.remove("hidden");
+            clearInterval(interval);
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        timer.innerHTML =
+            `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    const interval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Valentine interactions
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
     const question = document.getElementById("question");
     const videoContainer = document.getElementById("videoContainer");
     const loveVideo = document.getElementById("loveVideo");
 
-    // Move "No" button on hover
     noBtn.addEventListener("mouseover", () => {
         const x = Math.random() * (window.innerWidth - 120);
         const y = Math.random() * (window.innerHeight - 120);
@@ -93,7 +128,6 @@
         noBtn.style.top = `${y}px`;
     });
 
-    // Yes button click
     yesBtn.addEventListener("click", () => {
         question.style.display = "none";
         yesBtn.style.display = "none";
