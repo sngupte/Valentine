@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Valentine ❤️</title>
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            color: white;
+            text-align: center;
+        }
+
+        button {
+            font-size: 1.2rem;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #yesBtn {
+            background-color: #28a745;
+            margin-right: 20px;
+        }
+
+        #noBtn {
+            background-color: #dc3545;
+            position: absolute;
+        }
+
+        #videoContainer {
+            display: none;
+            margin-top: 30px;
+        }
+
+        video {
+            width: 560px;
+            max-width: 90%;
+            border-radius: 12px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #timer {
+            font-size: 2rem;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- COUNTDOWN SCREEN -->
+<div id="countdownScreen">
+    <h1>Something special is coming ❤️</h1>
+    <p>Unlocks on <b>14 February 2026</b></p>
+    <div id="timer">Loading...</div>
+</div>
+
+<!-- VALENTINE SCREEN -->
+<div id="valentineScreen" class="hidden">
+    <h1 id="question">Will you be my Valentine? 💖</h1>
+
+    <button id="yesBtn">Yes 💕</button>
+    <button id="noBtn">No 🙈</button>
+
+    <div id="videoContainer">
+        <h1>I love you ❤️</h1>
+        <video id="loveVideo" controls autoplay muted>
+            <source src="love.mp4" type="video/mp4">
+        </video>
+    </div>
+</div>
+
+<script>
+    // Set Valentine unlock time (IST)
+    const unlockDate = new Date("2026-02-14T00:00:00+05:30");
+
+    const countdownScreen = document.getElementById("countdownScreen");
+    const valentineScreen = document.getElementById("valentineScreen");
+    const timer = document.getElementById("timer");
+
+    function updateCountdown() {
+        const now = new Date();
+        const diff = unlockDate - now;
+
+        if (diff <= 0) {
+            countdownScreen.style.display = "none";
+            valentineScreen.classList.remove("hidden");
+            clearInterval(interval);
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        timer.innerHTML =
+            `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    const interval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Valentine interactions
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const question = document.getElementById("question");
+    const videoContainer = document.getElementById("videoContainer");
+    const loveVideo = document.getElementById("loveVideo");
+
+    noBtn.addEventListener("mouseover", () => {
+        const x = Math.random() * (window.innerWidth - 120);
+        const y = Math.random() * (window.innerHeight - 120);
+        noBtn.style.left = `${x}px`;
+        noBtn.style.top = `${y}px`;
+    });
+
+    yesBtn.addEventListener("click", () => {
+        question.style.display = "none";
+        yesBtn.style.display = "none";
+        noBtn.style.display = "none";
+        videoContainer.style.display = "block";
+        loveVideo.play();
+    });
+</script>
+
+</body>
+</html>

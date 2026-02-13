@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Valentine ❤️</title>
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+
+        button {
+            font-size: 1.2rem;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #yesBtn {
+            background-color: #28a745;
+            color: white;
+            margin-right: 20px;
+        }
+
+        #noBtn {
+            background-color: #dc3545;
+            color: white;
+            position: absolute;
+        }
+
+        #videoContainer {
+            display: none;
+            margin-top: 30px;
+        }
+
+        video {
+            width: 560px;
+            max-width: 90%;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="question">Will you be my Valentine? 💖</h1>
+
+    <button id="yesBtn">Yes 💕</button>
+    <button id="noBtn">No 🙈</button>
+
+    <div id="videoContainer">
+        <h1>I love you ❤️</h1>
+        <video id="loveVideo" controls autoplay>
+            <source src="love.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+
+<script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const question = document.getElementById("question");
+    const videoContainer = document.getElementById("videoContainer");
+    const loveVideo = document.getElementById("loveVideo");
+
+    // Move "No" button on hover
+    noBtn.addEventListener("mouseover", () => {
+        const x = Math.random() * (window.innerWidth - 120);
+        const y = Math.random() * (window.innerHeight - 120);
+        noBtn.style.left = `${x}px`;
+        noBtn.style.top = `${y}px`;
+    });
+
+    // Yes button click
+    yesBtn.addEventListener("click", () => {
+        question.style.display = "none";
+        yesBtn.style.display = "none";
+        noBtn.style.display = "none";
+        videoContainer.style.display = "block";
+        loveVideo.play();
+    });
+</script>
+
+</body>
+</html>
